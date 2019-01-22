@@ -1,7 +1,7 @@
 {
   "showPreviousViewOnLoad": true,
-  "defaultZoomValue": "",
-  "sidebarViewOnLoad": 0,
+  "defaultZoomValue": "page-fit",
+  "sidebarViewOnLoad": 1,
   "cursorToolOnLoad": 0,
   "enableWebGL": false,
   "eventBusDispatchToDOM": false,

@@ -75,6 +75,8 @@ function getViewerConfiguration() {
       viewFind: document.getElementById('viewFind'),
       openFile: document.getElementById('openFile'),
       print: document.getElementById('print'),
+      close: document.getElementById('close'),
+      printText: document.getElementById('printText'),
       presentationModeButton: document.getElementById('presentationMode'),
       download: document.getElementById('download'),
       viewBookmark: document.getElementById('viewBookmark'),
@@ -123,6 +125,9 @@ function getViewerConfiguration() {
       thumbnailView: document.getElementById('thumbnailView'),
       outlineView: document.getElementById('outlineView'),
       attachmentsView: document.getElementById('attachmentsView'),
+
+      // Page count
+      sidebarPagesCount: document.getElementById('sidebarPagesCount'),
     },
     sidebarResizer: {
       outerContainer: document.getElementById('outerContainer'),

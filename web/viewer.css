@@ -716,6 +716,11 @@ html[dir='rtl'] .dropdownToolbarButton {
   background-position: 5%;
 }
 
+.sidebarLabel {
+  color: white;
+  text-align: center;
+}
+
 .dropdownToolbarButton > select {
   min-width: 140px;
   font-size: 12px;
@@ -775,10 +780,10 @@ html[dir='rtl'] #findNext {
 .secondaryToolbarButton::before {
   /* All matching images have a size of 16x16
    * All relevant containers have a size of 32x25 */
-  position: absolute;
-  display: inline-block;
-  top: 4px;
-  left: 7px;
+  /* position: absolute; */
+  /* display: inline-block; */
+  /* top: 4px; */
+  /* left: 7px; */
 }
 
 html[dir="ltr"] .secondaryToolbarButton::before {
@@ -786,6 +791,30 @@ html[dir="ltr"] .secondaryToolbarButton::before {
 }
 html[dir="rtl"] .secondaryToolbarButton::before {
   right: 4px;
+}
+
+.toolbarButton#printText,
+.toolbarButton#close {
+  background-color: blue;
+  color: white;
+  font-size: 14px;
+  width: auto;
+  border: 2px outset white;
+}
+.hiddenbutton {
+  display: none;
+}
+.toolbarButton#printText:hover,
+.toolbarButton#close:hover
+{
+  /* font-weight: bold; */
+  border: 2px outset red;
+  background-color: rgba(64, 64, 255, 1.0);
+}
+.toolbarButton#printText:active,
+.toolbarButton#close:active,
+{
+  border: 2px inset white !important;
 }
 
 html[dir='ltr'] .toolbarButton#sidebarToggle::before {
@@ -817,25 +846,55 @@ html[dir='rtl'] .toolbarButton.findNext::before {
 }
 
 html[dir='ltr'] .toolbarButton.pageUp::before {
-  content: url(images/toolbarButton-pageUp.png);
+  content: url(images/arrow-alt-up.svg);
+  color: white;
+  width: 20px;
 }
-html[dir='rtl'] .toolbarButton.pageUp::before {
-  content: url(images/toolbarButton-pageUp-rtl.png);
-}
+/* html[dir='ltr'] .toolbarButton.pageUp { */
+  /* content: url(images/toolbarButton-pageUp.png); */
+  /* content: url(images/arrow-alt-up.svg); */
+  /* background-color: white; */
+  /* -webkit-mask-image: url(images/arrow-alt-up.svg); */
+  /* mask-image: url(images/arrow-alt-up.svg); */
+  /* background-image: url(images/arrow-alt-up.svg); */
+  /* background-size: contain; */
+  /* background-repeat: no-repeat; */
+  /* width: 24px; */
+/* } */
+/* html[dir='rtl'] .toolbarButton.pageUp::before { */
+/* html[dir='rtl'] .toolbarButton.pageUp { */
+  /* content: url(images/toolbarButton-pageUp-rtl.png); */
+  /* width: 24px; */
+/* } */
 
-html[dir='ltr'] .toolbarButton.pageDown::before {
-  content: url(images/toolbarButton-pageDown.png);
-}
-html[dir='rtl'] .toolbarButton.pageDown::before {
-  content: url(images/toolbarButton-pageDown-rtl.png);
+/* html[dir='ltr'] .toolbarButton.pageDown::before { */
+  /* content: url(images/toolbarButton-pageDown.png); */
+  /* content: url(images/arrow-alt-down.svg); */
+  /* background-color: white; */
+  /* -webkit-mask-image: url(images/arrow-alt-down.svg); */
+  /* mask-image: url(images/arrow-alt-down.svg); */
+  /* background-size: contain; */
+  /* background-repeat: no-repeat; */
+/* } */
+.toolbarButton.pageDown::before {
+  /* content: url(images/toolbarButton-pageDown-rtl.png); */
+  content: url(images/arrow-alt-down.svg);
+  color: white;
+  width: 20px;
 }
 
 .toolbarButton.zoomOut::before {
-  content: url(images/toolbarButton-zoomOut.png);
+  /* content: url(images/toolbarButton-zoomOut.png); */
+  content: url("images/search-minus.svg");
+  color: white;
+  width: 20px;
 }
 
 .toolbarButton.zoomIn::before {
-  content: url(images/toolbarButton-zoomIn.png);
+  /* content: url(images/toolbarButton-zoomIn.png); */
+  content: url("images/search-plus.svg");
+  color: white;
+  width: 20px;
 }
 
 .toolbarButton.presentationMode::before,

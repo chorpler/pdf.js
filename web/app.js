@@ -164,6 +164,7 @@ let PDFViewerApplication = {
     });
 
     this.initialized = true;
+    PDFViewerApplication.pdfSidebar.open();
   },
 
   /**
@@ -873,6 +874,7 @@ let PDFViewerApplication = {
       function() { /* Avoid breaking initial rendering; ignoring errors. */ });
 
     this.toolbar.setPagesCount(pdfDocument.numPages, false);
+    this.pdfSidebar.setPagesCount(pdfDocument.numPages);
     this.secondaryToolbar.setPagesCount(pdfDocument.numPages);
 
     const store = this.store = new ViewHistory(pdfDocument.fingerprint);
@@ -1069,12 +1071,12 @@ let PDFViewerApplication = {
     });
 
     Promise.all([onePageRendered, animationStarted]).then(() => {
-      pdfDocument.getOutline().then((outline) => {
-        this.pdfOutlineViewer.render({ outline, });
-      });
-      pdfDocument.getAttachments().then((attachments) => {
-        this.pdfAttachmentViewer.render({ attachments, });
-      });
+      // pdfDocument.getOutline().then((outline) => {
+      //   this.pdfOutlineViewer.render({ outline, });
+      // });
+      // pdfDocument.getAttachments().then((attachments) => {
+      //   this.pdfAttachmentViewer.render({ attachments, });
+      // });
     });
 
     pdfDocument.getMetadata().then(
@@ -1309,6 +1311,7 @@ let PDFViewerApplication = {
     eventBus.on('presentationmode', webViewerPresentationMode);
     eventBus.on('openfile', webViewerOpenFile);
     eventBus.on('print', webViewerPrint);
+    eventBus.on('close', webViewerClose);
     eventBus.on('download', webViewerDownload);
     eventBus.on('firstpage', webViewerFirstPage);
     eventBus.on('lastpage', webViewerLastPage);
@@ -1599,9 +1602,9 @@ function webViewerInitialized() {
     }
   }, true);
 
-  appConfig.sidebar.toggleButton.addEventListener('click', function() {
-    PDFViewerApplication.pdfSidebar.toggle();
-  });
+  // appConfig.sidebar.toggleButton.addEventListener('click', function() {
+  //   PDFViewerApplication.pdfSidebar.toggle();
+  // });
 
   try {
     webViewerOpenFileViaURL(file);
@@ -1668,6 +1671,8 @@ function webViewerPageRendered(evt) {
   if (!pageView) {
     return;
   }
+
+  PDFViewerApplication.pdfSidebar.open();
 
   // Use the rendered page to set the corresponding thumbnail image.
   if (PDFViewerApplication.pdfSidebar.isThumbnailViewVisible) {
@@ -1788,15 +1793,12 @@ function webViewerUpdateViewarea(evt) {
       'rotation': location.rotation,
     }).catch(function() { /* unable to write to storage */ });
   }
-  let href =
-    PDFViewerApplication.pdfLinkService.getAnchorUrl(location.pdfOpenParams);
-  PDFViewerApplication.appConfig.toolbar.viewBookmark.href = href;
-  PDFViewerApplication.appConfig.secondaryToolbar.viewBookmarkButton.href =
-    href;
+  // let href = PDFViewerApplication.pdfLinkService.getAnchorUrl(location.pdfOpenParams);
+  // PDFViewerApplication.appConfig.toolbar.viewBookmark.href = href;
+  // PDFViewerApplication.appConfig.secondaryToolbar.viewBookmarkButton.href = href;
 
   // Show/hide the loading indicator in the page number input element.
-  let currentPage =
-    PDFViewerApplication.pdfViewer.getPageView(PDFViewerApplication.page - 1);
+  let currentPage = PDFViewerApplication.pdfViewer.getPageView(PDFViewerApplication.page - 1);
   let loading = currentPage.renderingState !== RenderingStates.FINISHED;
   PDFViewerApplication.toolbar.updateLoadingIndicatorState(loading);
 }
@@ -1871,12 +1873,11 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
     }
 
     // URL does not reflect proper document location - hiding some icons.
-    let appConfig = PDFViewerApplication.appConfig;
-    appConfig.toolbar.viewBookmark.setAttribute('hidden', 'true');
-    appConfig.secondaryToolbar.viewBookmarkButton.setAttribute('hidden',
-                                                               'true');
-    appConfig.toolbar.download.setAttribute('hidden', 'true');
-    appConfig.secondaryToolbar.downloadButton.setAttribute('hidden', 'true');
+    // let appConfig = PDFViewerApplication.appConfig;
+    // appConfig.toolbar.viewBookmark.setAttribute('hidden', 'true');
+    // appConfig.secondaryToolbar.viewBookmarkButton.setAttribute('hidden', 'true');
+    // appConfig.toolbar.download.setAttribute('hidden', 'true');
+    // appConfig.secondaryToolbar.downloadButton.setAttribute('hidden', 'true');
   };
 }
 
@@ -1891,6 +1892,9 @@ function webViewerOpenFile() {
 }
 function webViewerPrint() {
   window.print();
+}
+function webViewerClose() {
+  window.close();
 }
 function webViewerDownload() {
   PDFViewerApplication.download();

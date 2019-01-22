@@ -111,10 +111,10 @@ class SecondaryToolbar {
 
     // Bind the event listeners for click, cursor tool, and scroll/spread mode
     // actions.
-    this._bindClickListeners();
-    this._bindCursorToolsListener(options);
-    this._bindScrollModeListener(options);
-    this._bindSpreadModeListener(options);
+    // this._bindClickListeners();
+    // this._bindCursorToolsListener(options);
+    // this._bindScrollModeListener(options);
+    // this._bindSpreadModeListener(options);
 
     // Bind the event listener for adjusting the 'max-height' of the toolbar.
     this.eventBus.on('resize', this._setMaxHeight.bind(this));
@@ -159,10 +159,10 @@ class SecondaryToolbar {
   }
 
   _updateUIState() {
-    this.items.firstPage.disabled = (this.pageNumber <= 1);
-    this.items.lastPage.disabled = (this.pageNumber >= this.pagesCount);
-    this.items.pageRotateCw.disabled = this.pagesCount === 0;
-    this.items.pageRotateCcw.disabled = this.pagesCount === 0;
+    // this.items.firstPage.disabled = (this.pageNumber <= 1);
+    // this.items.lastPage.disabled = (this.pageNumber >= this.pagesCount);
+    // this.items.pageRotateCw.disabled = this.pagesCount === 0;
+    // this.items.pageRotateCcw.disabled = this.pagesCount === 0;
   }
 
   _bindClickListeners() {

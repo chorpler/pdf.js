@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-import { addLinkAttributes, LinkTarget, removeNullCharacters } from 'pdfjs-lib';
+// import { addLinkAttributes, LinkTarget, removeNullCharacters } from 'pdfjs-lib';
 
-const DEFAULT_TITLE = '\u2013';
+// const DEFAULT_TITLE = '\u2013';
 
 /**
  * @typedef {Object} PDFOutlineViewerOptions
@@ -35,182 +35,183 @@ class PDFOutlineViewer {
    */
   constructor({ container, linkService, eventBus, }) {
     this.container = container;
-    this.linkService = linkService;
-    this.eventBus = eventBus;
+    // this.container = container;
+    // this.linkService = linkService;
+    // this.eventBus = eventBus;
 
-    this.reset();
+    // this.reset();
 
-    eventBus.on('toggleoutlinetree', this.toggleOutlineTree.bind(this));
+    // eventBus.on('toggleoutlinetree', this.toggleOutlineTree.bind(this));
   }
 
-  reset() {
-    this.outline = null;
-    this.lastToggleIsShow = true;
+  // reset() {
+  //   this.outline = null;
+  //   this.lastToggleIsShow = true;
 
-    // Remove the outline from the DOM.
-    this.container.textContent = '';
+  //   // Remove the outline from the DOM.
+  //   this.container.textContent = '';
 
-    // Ensure that the left (right in RTL locales) margin is always reset,
-    // to prevent incorrect outline alignment if a new document is opened.
-    this.container.classList.remove('outlineWithDeepNesting');
-  }
+  //   // Ensure that the left (right in RTL locales) margin is always reset,
+  //   // to prevent incorrect outline alignment if a new document is opened.
+  //   this.container.classList.remove('outlineWithDeepNesting');
+  // }
 
-  /**
-   * @private
-   */
-  _dispatchEvent(outlineCount) {
-    this.eventBus.dispatch('outlineloaded', {
-      source: this,
-      outlineCount,
-    });
-  }
+  // /**
+  //  * @private
+  //  */
+  // _dispatchEvent(outlineCount) {
+  //   this.eventBus.dispatch('outlineloaded', {
+  //     source: this,
+  //     outlineCount,
+  //   });
+  // }
 
-  /**
-   * @private
-   */
-  _bindLink(element, { url, newWindow, dest, }) {
-    let { linkService, } = this;
+  // /**
+  //  * @private
+  //  */
+  // _bindLink(element, { url, newWindow, dest, }) {
+  //   let { linkService, } = this;
 
-    if (url) {
-      addLinkAttributes(element, {
-        url,
-        target: (newWindow ? LinkTarget.BLANK : linkService.externalLinkTarget),
-        rel: linkService.externalLinkRel,
-      });
-      return;
-    }
+  //   if (url) {
+  //     addLinkAttributes(element, {
+  //       url,
+  //       target: (newWindow ? LinkTarget.BLANK : linkService.externalLinkTarget),
+  //       rel: linkService.externalLinkRel,
+  //     });
+  //     return;
+  //   }
 
-    element.href = linkService.getDestinationHash(dest);
-    element.onclick = () => {
-      if (dest) {
-        linkService.navigateTo(dest);
-      }
-      return false;
-    };
-  }
+  //   element.href = linkService.getDestinationHash(dest);
+  //   element.onclick = () => {
+  //     if (dest) {
+  //       linkService.navigateTo(dest);
+  //     }
+  //     return false;
+  //   };
+  // }
 
-  /**
-   * @private
-   */
-  _setStyles(element, { bold, italic, }) {
-    let styleStr = '';
-    if (bold) {
-      styleStr += 'font-weight: bold;';
-    }
-    if (italic) {
-      styleStr += 'font-style: italic;';
-    }
+  // /**
+  //  * @private
+  //  */
+  // _setStyles(element, { bold, italic, }) {
+  //   let styleStr = '';
+  //   if (bold) {
+  //     styleStr += 'font-weight: bold;';
+  //   }
+  //   if (italic) {
+  //     styleStr += 'font-style: italic;';
+  //   }
 
-    if (styleStr) {
-      element.setAttribute('style', styleStr);
-    }
-  }
+  //   if (styleStr) {
+  //     element.setAttribute('style', styleStr);
+  //   }
+  // }
 
-  /**
-   * Prepend a button before an outline item which allows the user to toggle
-   * the visibility of all outline items at that level.
-   *
-   * @private
-   */
-  _addToggleButton(div) {
-    let toggler = document.createElement('div');
-    toggler.className = 'outlineItemToggler';
-    toggler.onclick = (evt) => {
-      evt.stopPropagation();
-      toggler.classList.toggle('outlineItemsHidden');
+  // /**
+  //  * Prepend a button before an outline item which allows the user to toggle
+  //  * the visibility of all outline items at that level.
+  //  *
+  //  * @private
+  //  */
+  // _addToggleButton(div) {
+  //   let toggler = document.createElement('div');
+  //   toggler.className = 'outlineItemToggler';
+  //   toggler.onclick = (evt) => {
+  //     evt.stopPropagation();
+  //     toggler.classList.toggle('outlineItemsHidden');
 
-      if (evt.shiftKey) {
-        let shouldShowAll = !toggler.classList.contains('outlineItemsHidden');
-        this._toggleOutlineItem(div, shouldShowAll);
-      }
-    };
-    div.insertBefore(toggler, div.firstChild);
-  }
+  //     if (evt.shiftKey) {
+  //       let shouldShowAll = !toggler.classList.contains('outlineItemsHidden');
+  //       this._toggleOutlineItem(div, shouldShowAll);
+  //     }
+  //   };
+  //   div.insertBefore(toggler, div.firstChild);
+  // }
 
-  /**
-   * Toggle the visibility of the subtree of an outline item.
-   *
-   * @param {Element} root - the root of the outline (sub)tree.
-   * @param {boolean} show - whether to show the outline (sub)tree. If false,
-   *   the outline subtree rooted at |root| will be collapsed.
-   *
-   * @private
-   */
-  _toggleOutlineItem(root, show) {
-    this.lastToggleIsShow = show;
-    let togglers = root.querySelectorAll('.outlineItemToggler');
-    for (let i = 0, ii = togglers.length; i < ii; ++i) {
-      togglers[i].classList[show ? 'remove' : 'add']('outlineItemsHidden');
-    }
-  }
+  // /**
+  //  * Toggle the visibility of the subtree of an outline item.
+  //  *
+  //  * @param {Element} root - the root of the outline (sub)tree.
+  //  * @param {boolean} show - whether to show the outline (sub)tree. If false,
+  //  *   the outline subtree rooted at |root| will be collapsed.
+  //  *
+  //  * @private
+  //  */
+  // _toggleOutlineItem(root, show) {
+  //   this.lastToggleIsShow = show;
+  //   let togglers = root.querySelectorAll('.outlineItemToggler');
+  //   for (let i = 0, ii = togglers.length; i < ii; ++i) {
+  //     togglers[i].classList[show ? 'remove' : 'add']('outlineItemsHidden');
+  //   }
+  // }
 
-  /**
-   * Collapse or expand all subtrees of the outline.
-   */
-  toggleOutlineTree() {
-    if (!this.outline) {
-      return;
-    }
-    this._toggleOutlineItem(this.container, !this.lastToggleIsShow);
-  }
+  // /**
+  //  * Collapse or expand all subtrees of the outline.
+  //  */
+  // toggleOutlineTree() {
+  //   if (!this.outline) {
+  //     return;
+  //   }
+  //   this._toggleOutlineItem(this.container, !this.lastToggleIsShow);
+  // }
 
-  /**
-   * @param {PDFOutlineViewerRenderParameters} params
-   */
-  render({ outline, }) {
-    let outlineCount = 0;
+  // /**
+  //  * @param {PDFOutlineViewerRenderParameters} params
+  //  */
+  // render({ outline, }) {
+  //   let outlineCount = 0;
 
-    if (this.outline) {
-      this.reset();
-    }
-    this.outline = outline || null;
+  //   if (this.outline) {
+  //     this.reset();
+  //   }
+  //   this.outline = outline || null;
 
-    if (!outline) {
-      this._dispatchEvent(outlineCount);
-      return;
-    }
+  //   if (!outline) {
+  //     this._dispatchEvent(outlineCount);
+  //     return;
+  //   }
 
-    let fragment = document.createDocumentFragment();
-    let queue = [{ parent: fragment, items: this.outline, }];
-    let hasAnyNesting = false;
-    while (queue.length > 0) {
-      let levelData = queue.shift();
-      for (let i = 0, len = levelData.items.length; i < len; i++) {
-        let item = levelData.items[i];
+  //   let fragment = document.createDocumentFragment();
+  //   let queue = [{ parent: fragment, items: this.outline, }];
+  //   let hasAnyNesting = false;
+  //   while (queue.length > 0) {
+  //     let levelData = queue.shift();
+  //     for (let i = 0, len = levelData.items.length; i < len; i++) {
+  //       let item = levelData.items[i];
 
-        let div = document.createElement('div');
-        div.className = 'outlineItem';
+  //       let div = document.createElement('div');
+  //       div.className = 'outlineItem';
 
-        let element = document.createElement('a');
-        this._bindLink(element, item);
-        this._setStyles(element, item);
-        element.textContent =
-          removeNullCharacters(item.title) || DEFAULT_TITLE;
+  //       let element = document.createElement('a');
+  //       this._bindLink(element, item);
+  //       this._setStyles(element, item);
+  //       element.textContent =
+  //         removeNullCharacters(item.title) || DEFAULT_TITLE;
 
-        div.appendChild(element);
+  //       div.appendChild(element);
 
-        if (item.items.length > 0) {
-          hasAnyNesting = true;
-          this._addToggleButton(div);
+  //       if (item.items.length > 0) {
+  //         hasAnyNesting = true;
+  //         this._addToggleButton(div);
 
-          let itemsDiv = document.createElement('div');
-          itemsDiv.className = 'outlineItems';
-          div.appendChild(itemsDiv);
-          queue.push({ parent: itemsDiv, items: item.items, });
-        }
+  //         let itemsDiv = document.createElement('div');
+  //         itemsDiv.className = 'outlineItems';
+  //         div.appendChild(itemsDiv);
+  //         queue.push({ parent: itemsDiv, items: item.items, });
+  //       }
 
-        levelData.parent.appendChild(div);
-        outlineCount++;
-      }
-    }
-    if (hasAnyNesting) {
-      this.container.classList.add('outlineWithDeepNesting');
-    }
+  //       levelData.parent.appendChild(div);
+  //       outlineCount++;
+  //     }
+  //   }
+  //   if (hasAnyNesting) {
+  //     this.container.classList.add('outlineWithDeepNesting');
+  //   }
 
-    this.container.appendChild(fragment);
+  //   this.container.appendChild(fragment);
 
-    this._dispatchEvent(outlineCount);
-  }
+  //   this._dispatchEvent(outlineCount);
+  // }
 }
 
 export {
